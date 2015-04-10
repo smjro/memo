@@ -63,45 +63,45 @@ xkbcomp -I$HOME/.xkb ~/.xkb/keymap/mykbd $DISPLAY 2> /dev/null
 ***
 何度も苦労したので備忘録として残しときます．
 
-1. まずは，NVIDIAからドライバをダウンロードしてきてください．そして，
-   ダウンロードしてきたファイルを分かりやすいディレクトリに移してお
-   く．~/Downloadに置きっぱでも問題ないと思いますがディレクトリ名を日
-   本語から英語にしておかないと色々と面倒になると思うので変えといてく
-   ださい．
+- まずは，NVIDIAからドライバをダウンロードしてきてください．そして，
+  ダウンロードしてきたファイルを分かりやすいディレクトリに移してお
+  く．~/Downloadに置きっぱでも問題ないと思いますがディレクトリ名を日
+  本語から英語にしておかないと色々と面倒になると思うので変えといてく
+  ださい．
 
-2. 以下コマンドにて最新の状態にしておく．
+- 以下コマンドにて最新の状態にしておく．
 
 ```
 $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
 
-3.  ubuntuのXサーバ関係の開発パッケージをインストールする．
+- ubuntuのXサーバ関係の開発パッケージをインストールする．
 
 ```
 $ sudo apt-get install xserver-xorg-dev
 ```
 
-4. nouveauを使わないように/etc/default/grubを編集する．私は
-   /etc/default/まで行きemacsでgrubを編集しました．
-   GRUB_CMDLINE_LINUX_DEFAULT="%%%%"の%%%%のところをsplash
-   nouveau.modeset=0とする．
+- nouveauを使わないように/etc/default/grubを編集する．私は
+  /etc/default/まで行きemacsでgrubを編集しました．
+  GRUB_CMDLINE_LINUX_DEFAULT="%%%%"の%%%%のところをsplash
+  nouveau.modeset=0とする．
 
-5. /etc/default/grubの変更を適用させる．
+- /etc/default/grubの変更を適用させる．
 
 ```
 $ sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-6. Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらく．
+- Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらく．
 
-7. ユーザー名とパスワードを入力した後，Xサーバを停止する．
+- ユーザー名とパスワードを入力した後，Xサーバを停止する．
 
 ```
 $ sudo /etc/init.d/lightdm stop
 ```
 
-8. NVIDIA関連のパッケージをアンインストールする．
+- NVIDIA関連のパッケージをアンインストールする．
 
 ```
 $ dpkg -l | grep nvidia
@@ -126,15 +126,15 @@ $ apt-get --purge remove xserver-xorg-video-nouveau
 $ shutdown -r now
 ```
 
-9. 再度Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらき
-   Xサーバを停止する．
+- 再度Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらき
+  Xサーバを停止する．
 
 ```
 $ sudo /etc/init.d/lightdm stop
 ```
 
-10. ダウンロードしたドライバがあるディレクトリに移動し
-	以下コマンドにてインストールを開始する．
+- ダウンロードしたドライバがあるディレクトリに移動し
+  以下コマンドにてインストールを開始する．
 
 ```
 $ sudo sh NVIDIA-Linux-x86-340.46.run
@@ -142,7 +142,7 @@ $ sudo sh NVIDIA-Linux-x86-340.46.run
 
 ※ダウンロードしたファイル名を打ち込んでください．「x86-340.46」
 の部分が人によって変わってきます．
-11. あとは手順に従ってインストールしていく．
+- あとは手順に従ってインストールしていく．
 
 追記：アップデートを繰り返すと画面の解像度がおかしくなることがあります．
 その場合は９．からやり直して再度ドライバをインストールすれば改善します．
