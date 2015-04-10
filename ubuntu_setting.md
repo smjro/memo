@@ -58,3 +58,117 @@ xkb_keymap {
 ```
 xkbcomp -I$HOME/.xkb ~/.xkb/keymap/mykbd $DISPLAY 2> /dev/null
 ```
+
+## ubuntuにnvidiaのドライバをインストールする方法
+***
+何度も苦労したので備忘録として残しときます．
+
+１．まずは，NVIDIAからドライバをダウンロードしてきてください．そして，
+   ダウンロードしてきたファイルを分かりやすいディレクトリに移してお
+   く．~/Downloadに置きっぱでも問題ないと思いますがディレクトリ名を日
+   本語から英語にしておかないと色々と面倒になると思うので変えといてく
+   ださい．
+
+２．以下コマンドにて最新の状態にしておく．
+
+```
+$ sudo apt-get update
+$ sudo apt-get upgrade
+```
+
+３． ubuntuのXサーバ関係の開発パッケージをインストールする．
+
+```
+$ sudo apt-get install xserver-xorg-dev
+```
+
+４．nouveauを使わないように/etc/default/grubを編集する．私は
+   /etc/default/まで行きemacsでgrubを編集しました．
+   GRUB_CMDLINE_LINUX_DEFAULT="%%%%"の%%%%のところをsplash
+   nouveau.modeset=0とする．
+
+５．/etc/default/grubの変更を適用させる．
+
+```
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+６．Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらく．
+
+７．ユーザー名とパスワードを入力した後，Xサーバを停止する．
+
+```
+$ sudo /etc/init.d/lightdm stop
+```
+
+８．NVIDIA関連のパッケージをアンインストールする．
+
+```
+$ dpkg -l | grep nvidia
+```
+
+　　色々と出てくると思うので
+
+```
+$ sudo apt-get --purge remove 検索にヒットしたパッケージ名
+```
+
+　　でアンインストールする．私の場合は
+
+```
+$ apt-get --purge remove xserver-xorg-video-nouveau
+```
+
+　　だけをアンインストールしました．アンインストールをした場合は再起動
+をする．コマンドは，以下を実行すると再起動します．
+
+```
+$ shutdown -r now
+```
+
+９．再度Ctl + Alt + F1でCUI（コンソールみたいなもの）をひらき
+　　Xサーバを停止する．
+
+```
+$ sudo /etc/init.d/lightdm stop
+```
+
+１０．ダウンロードしたドライバがあるディレクトリに移動し
+　　以下コマンドにてインストールを開始する．
+
+```
+$ sudo sh NVIDIA-Linux-x86-340.46.run
+```
+
+　　※ダウンロードしたファイル名を打ち込んでください．「x86-340.46」
+　　の部分が人によって変わってきます．
+１１．あとは手順に従ってインストールしていく．
+
+追記：アップデートを繰り返すと画面の解像度がおかしくなることがあります．
+その場合は９．からやり直して再度ドライバをインストールすれば改善します．
+
+## ubuntuのホームの日本語ディレクトリを英語表記に直す方法
+***
+
+１．端末を開く．  
+２．次のコマンドを実行する．
+
+```
+$ LANG=C xdg-user-dirs-gtk-update
+```
+
+３．すると，警告のような画面が出ると思うので「Don't ask me this again」
+にチェックを入れて「Update Names」をクリックする．  
+４．再起動すれば変わっていると思います．
+
+## TEDの文字化けの対処法
+バージョン:ubuntu 14.10
+***
+以下の操作を行いchromeを起動し直すと
+文字化けは解消された
+
+```
+sudo apt-get install fonts-arphic-uming  
+fc-cache -fv  
+sudo cp /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf /usr/share/fonts/truetype/arphic/uming.ttc
+```
