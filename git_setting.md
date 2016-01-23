@@ -50,6 +50,7 @@ gitのコマンドにはエイリアスを設定することが出来ます。
 [ここ](http://github.com/settings/ssh)で公開鍵の設定ができます。
 画面右上の「Add SSH key」のボタンを押します。
 ![git_ssh_bar](fig/git_ssh_bar.png)
+
 「title」に公開鍵名，「key」に公開鍵`id_rsa.pub`の中身を入れます。
 
 ## 接続の確認
