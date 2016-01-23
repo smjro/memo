@@ -55,3 +55,13 @@ gitのコマンドにはエイリアスを設定することが出来ます。
 $ ssh -T git@github.com
 ```
 で返ってきたら接続完了。
+
+なお、これでもIDやパスワードを聞かれる場合はレポジトリのディレクトリに入り
+```
+$ git config remote.origin.url
+```
+で確認しhttps://github.com:[ユーザID]/[リポジトリ].gitとなっていたら
+```
+git remote set-url origin git@github.com:[ユーザID]/[リポジトリ].git
+```
+とする。
