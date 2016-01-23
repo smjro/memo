@@ -1,9 +1,7 @@
 # git
-***
 githubの使用を前提としています．
 
 ## gitのインストールと初期設定
-***
 まず，以下のコマンドからgitをインストールする．
 ```
 	$ sudo apt-get install git
@@ -46,7 +44,6 @@ gitのコマンドにはエイリアスを設定することが出来ます。
 ```
 
 ## 公開鍵をgithubにアップする
-***
 [ここ](http://github.com/settings/ssh)で公開鍵の設定ができます。
 画面右上の「Add SSH key」のボタンを押します。
 ![git_ssh_bar](fig/git_ssh_bar.png)
