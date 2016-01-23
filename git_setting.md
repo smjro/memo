@@ -60,7 +60,7 @@ $ ssh -T git@github.com
 ```
 $ git config remote.origin.url
 ```
-で確認しhttps://github.com:[ユーザID]/[リポジトリ].gitとなっていたら
+で確認し`https://github.com:[ユーザID]/[リポジトリ].git`となっていたら
 ```
 git remote set-url origin git@github.com:[ユーザID]/[リポジトリ].git
 ```
