@@ -172,3 +172,59 @@ sudo apt-get install fonts-arphic-uming
 fc-cache -fv  
 sudo cp /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf /usr/share/fonts/truetype/arphic/uming.ttc
 ```
+
+## emacsでスペルチェックを行う方法
+Emacsでスペルチェックを行うには`aspell`を使うと良い．
+aspsllは`ispell`の後継ソフトで，デフォルトで用意されている．
+ここでは，`ispell`を`aspell`に置き換える方法と
+文字を入力した瞬間にスペルチェックをしてくれるモードを
+emacs起動時に有効にする方法を紹介する．
+
+### aspellの設定
+日本語と英語が混在する場合は，常に英語の辞書を使うように
+`~/.aspell.conf`を作成し
+```
+lang en_US
+```
+と書き込んでおく．
+
+### 使い方
+バッファ全体をスペルチェック
+```
+M-x ispell-buffer
+```
+選択範囲をスペルチェック
+```
+M-x ispell-region
+```
+
+### flyspell
+`flyspell-mode`という文字を入力した瞬間にスペルチェックを
+してくれるモードがある．  
+一時的にflyspell-modeを有効にするには
+```
+M-x flyspell-mode
+```
+とすればよい．
+
+### 自動でflyspell-modeを有効にする
+ここでは，yatexモードの時にflyspell-modeが自動起動するようにしている．
+`~/.emacs.d/init.el`に以下を書く．
+```
+(mapc                                   ;; 以下flyspell-modeの設定
+ (lambda (hook)
+   (add-hook hook 'flyspell-prog-mode))
+ '(
+   c-mode-common-hook                 ;; ここに書いたモードではコメント領域のところだけ
+   emacs-lisp-mode-hook                 ;; flyspell-mode が有効になる
+   ))
+(mapc
+   (lambda (hook)
+     (add-hook hook
+                      '(lambda () (flyspell-mode 1))))
+   '(
+     yatex-mode-hook     ;; ここに書いたモードでは
+                                    ;; flyspell-mode が有効になる
+     ))
+```
+
