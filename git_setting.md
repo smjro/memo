@@ -1,9 +1,7 @@
 # git
-***
 githubの使用を前提としています．
 
 ## gitのインストールと初期設定
-***
 まず，以下のコマンドからgitをインストールする．
 ```
 	$ sudo apt-get install git
@@ -44,3 +42,26 @@ gitのコマンドにはエイリアスを設定することが出来ます。
 ```
 	$ ssh-add ~/.ssh/id_rsa
 ```
+
+## 公開鍵をgithubにアップする
+[ここ](http://github.com/settings/ssh)で公開鍵の設定ができます。
+画面右上の「Add SSH key」のボタンを押します。
+![git_ssh_bar](fig/git_ssh_bar.png)
+
+「title」に公開鍵名，「key」に公開鍵`id_rsa.pub`の中身を入れます。
+
+## 接続の確認
+```
+$ ssh -T git@github.com
+```
+で返ってきたら接続完了。
+
+なお、これでもIDやパスワードを聞かれる場合はレポジトリのディレクトリに入り
+```
+$ git config remote.origin.url
+```
+で確認し`https://github.com:[ユーザID]/[リポジトリ].git`となっていたら
+```
+git remote set-url origin git@github.com:[ユーザID]/[リポジトリ].git
+```
+とする。
