@@ -402,3 +402,104 @@ M-x flyspell-mode
                                     ;; flyspell-mode が有効になる
      ))
 ```
+
+### texの環境構築
+***
+
+```
+sudo apt-get install texlive //本体
+sudo apt-get install texlive-lang-cjk //日本語版
+sudo apt-get install xdvik-ja //プレビュー
+```
+yatexはsynapticでインストール可
+
+### xdviを表示した際に警告が出たので，その対処法
+***
+
+```
+!!!------------------------------------------------------------------------------
+!!!------------------------------ Fonts and colors ------------------------------
+!!!------------------------------------------------------------------------------
+*font:     -*-helvetica-medium-r-*-*-12-*-*-*-*-*-*
+!!! Use a smaller font for the statusline in the Xaw version:
+*statusline.font: -*-helvetica-medium-r-*-*-10-*-*-*-*-*-*
+```
+XDviファイルの上記の箇所を
+```
+!!!------------------------------------------------------------------------------
+!!!------------------------------ Fonts and colors ------------------------------
+!!!------------------------------------------------------------------------------
+!*font:     -*-helvetica-medium-r-*-*-12-*-*-*-*-*-*
+*font:     -*-*-medium-r-*-*-12-*-*-*-*-*-*-*
+!!! Use a smaller font for the statusline in the Xaw version:
+!*statusline.font: -*-helvetica-medium-r-*-*-10-*-*-*-*-*-*
+*statusline.font: -*-*-medium-r-*-*-10-*-*-*-*-*-*-*
+```
+と変更することで解決した．
+
+### gazebo
+***
+gazeboが起動しなかったので，その対処法を示す．  
+```
+:~$ gazebo
+Gazebo multi-robot simulator, version 2.2.3
+Copyright (C) 2012-2014 Open Source Robotics Foundation.
+Released under the Apache 2 License.
+http://gazebosim.org
+
+Msg Waiting for master
+Gazebo multi-robot simulator, version 2.2.3
+Copyright (C) 2012-2014 Open Source Robotics Foundation.
+Released under the Apache 2 License.
+http://gazebosim.org
+
+Msg Waiting for master
+Msg Connected to gazebo master @ http://127.0.0.1:11345
+Msg Publicized address: 192.168.1.152
+Msg Connected to gazebo master @ http://127.0.0.1:11345
+Msg Publicized address: 192.168.1.152
+Warning [ModelDatabase.cc:334] Getting models from[http://gazebosim.org/models/]. This may take a few seconds.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Error [gazebo.cc:220] Waited 11 seconds for namespaces. Giving up.
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Param.cc:181] Unable to set value [1,0471975511965976] for key[horizontal_fov]
+Error [Param.cc:181] Unable to set value [0,100000001] for key[near]
+```
+の様なErrorが出た場合は
+```
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu trusty main" > /etc/apt/sources.list.d/gazebo-latest.list'
+wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+```
+と入力し，Ubuntuをupdateすると，起動するようになった．
+
+### ROSのコマンド
+***
+
+```
+rospack = ros+pack(age) : ROS パッケージに関連した情報を提供します
+roscd = ros+cd : ROS パッケージがスタックのディレクトリへ移動(cd=changes directory)します
+rosls = ros+ls : ROS パッケージ内のファイルを表示（ls=list segments）します
+roscp = ros+cp : ROS パッケージから、またはパッケージへファイルをコピー(cp=copy)します
+rosmsg = ros+msg : ROS メッセージ定義に関連した情報を提供します
+rossrv = ros+srv : ROS サービス定義に関連した情報を提供します
+catkin_make = catkin+make : ROSパッケージを作成（コンパイル）します
+```
