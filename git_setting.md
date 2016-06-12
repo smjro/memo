@@ -69,6 +69,9 @@ git remote set-url origin git@github.com:[ユーザID]/[リポジトリ].git
 ## 新規レポジトリの作成
 自分のgitページからnewを押して新規レポジトリを作成します。
 ![git_rep](fig/git_rep.png)
+
 表示される手順に従ってpullすれば完了。
+
 あとはmagitでお好きなようにしてください。
+
 初めからmagitでやれる方法があると思いますが、私には分かりませんでした。。
