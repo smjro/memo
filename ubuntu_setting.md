@@ -347,3 +347,159 @@ sudo apt-get install fonts-arphic-uming
 fc-cache -fv  
 sudo cp /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf /usr/share/fonts/truetype/arphic/uming.ttc
 ```
+
+## emacsでスペルチェックを行う方法
+Emacsでスペルチェックを行うには`aspell`を使うと良い．
+aspsllは`ispell`の後継ソフトで，デフォルトで用意されている．
+ここでは，`ispell`を`aspell`に置き換える方法と
+文字を入力した瞬間にスペルチェックをしてくれるモードを
+emacs起動時に有効にする方法を紹介する．
+
+### aspellの設定
+日本語と英語が混在する場合は，常に英語の辞書を使うように
+`~/.aspell.conf`を作成し
+```
+lang en_US
+```
+と書き込んでおく．
+
+### 使い方
+バッファ全体をスペルチェック
+```
+M-x ispell-buffer
+```
+選択範囲をスペルチェック
+```
+M-x ispell-region
+```
+
+### flyspell
+`flyspell-mode`という文字を入力した瞬間にスペルチェックを
+してくれるモードがある．  
+一時的にflyspell-modeを有効にするには
+```
+M-x flyspell-mode
+```
+とすればよい．
+
+### 自動でflyspell-modeを有効にする
+ここでは，yatexモードの時にflyspell-modeが自動起動するようにしている．
+`~/.emacs.d/init.el`に以下を書く．
+```
+(mapc                                   ;; 以下flyspell-modeの設定
+ (lambda (hook)
+   (add-hook hook 'flyspell-prog-mode))
+ '(
+   c-mode-common-hook                 ;; ここに書いたモードではコメント領域のところだけ
+   emacs-lisp-mode-hook                 ;; flyspell-mode が有効になる
+   ))
+(mapc
+   (lambda (hook)
+     (add-hook hook
+                      '(lambda () (flyspell-mode 1))))
+   '(
+     yatex-mode-hook     ;; ここに書いたモードでは
+                                    ;; flyspell-mode が有効になる
+     ))
+```
+
+### texの環境構築
+***
+
+```
+sudo apt-get install texlive //本体
+sudo apt-get install texlive-lang-cjk //日本語版
+sudo apt-get install xdvik-ja //プレビュー
+```
+yatexはsynapticでインストール可
+
+### xdviを表示した際に警告が出たので，その対処法
+***
+
+```
+!!!------------------------------------------------------------------------------
+!!!------------------------------ Fonts and colors ------------------------------
+!!!------------------------------------------------------------------------------
+*font:     -*-helvetica-medium-r-*-*-12-*-*-*-*-*-*
+!!! Use a smaller font for the statusline in the Xaw version:
+*statusline.font: -*-helvetica-medium-r-*-*-10-*-*-*-*-*-*
+```
+XDviファイルの上記の箇所を
+```
+!!!------------------------------------------------------------------------------
+!!!------------------------------ Fonts and colors ------------------------------
+!!!------------------------------------------------------------------------------
+!*font:     -*-helvetica-medium-r-*-*-12-*-*-*-*-*-*
+*font:     -*-*-medium-r-*-*-12-*-*-*-*-*-*-*
+!!! Use a smaller font for the statusline in the Xaw version:
+!*statusline.font: -*-helvetica-medium-r-*-*-10-*-*-*-*-*-*
+*statusline.font: -*-*-medium-r-*-*-10-*-*-*-*-*-*-*
+```
+と変更することで解決した．
+
+### gazebo
+***
+gazeboが起動しなかったので，その対処法を示す．  
+```
+:~$ gazebo
+Gazebo multi-robot simulator, version 2.2.3
+Copyright (C) 2012-2014 Open Source Robotics Foundation.
+Released under the Apache 2 License.
+http://gazebosim.org
+
+Msg Waiting for master
+Gazebo multi-robot simulator, version 2.2.3
+Copyright (C) 2012-2014 Open Source Robotics Foundation.
+Released under the Apache 2 License.
+http://gazebosim.org
+
+Msg Waiting for master
+Msg Connected to gazebo master @ http://127.0.0.1:11345
+Msg Publicized address: 192.168.1.152
+Msg Connected to gazebo master @ http://127.0.0.1:11345
+Msg Publicized address: 192.168.1.152
+Warning [ModelDatabase.cc:334] Getting models from[http://gazebosim.org/models/]. This may take a few seconds.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Warning [gazebo.cc:215] Waited 1seconds for namespaces.
+Error [gazebo.cc:220] Waited 11 seconds for namespaces. Giving up.
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Node.cc:90] No namespace found
+Error [Param.cc:181] Unable to set value [1,0471975511965976] for key[horizontal_fov]
+Error [Param.cc:181] Unable to set value [0,100000001] for key[near]
+```
+の様なErrorが出た場合は
+```
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu trusty main" > /etc/apt/sources.list.d/gazebo-latest.list'
+wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+```
+と入力し，Ubuntuをupdateすると，起動するようになった．
+
+### ROSのコマンド
+***
+
+```
+rospack = ros+pack(age) : ROS パッケージに関連した情報を提供します
+roscd = ros+cd : ROS パッケージがスタックのディレクトリへ移動(cd=changes directory)します
+rosls = ros+ls : ROS パッケージ内のファイルを表示（ls=list segments）します
+roscp = ros+cp : ROS パッケージから、またはパッケージへファイルをコピー(cp=copy)します
+rosmsg = ros+msg : ROS メッセージ定義に関連した情報を提供します
+rossrv = ros+srv : ROS サービス定義に関連した情報を提供します
+catkin_make = catkin+make : ROSパッケージを作成（コンパイル）します
+```
